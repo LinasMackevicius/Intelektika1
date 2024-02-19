@@ -67,14 +67,14 @@ print("Graph Structure:")
 my_complex_graph.print_graph()
 
 # Part 2: Apply UCS algorithm from vertex 0 to 100
-start_time = time.time()
-
 start_vertex = 0
 goal_vertex = 100
-result_path_ucs = my_complex_graph.ucs(start_vertex, goal_vertex)
 
-end_time = time.time()
-elapsed_time_ms_ucs = (end_time - start_time) * 1000  # Convert seconds to milliseconds
+start_time_ucs = time.time()
+result_path_ucs = my_complex_graph.ucs(start_vertex, goal_vertex)
+end_time_ucs = time.time()
+
+elapsed_time_ms_ucs = (end_time_ucs - start_time_ucs) * 1000  # Convert seconds to milliseconds
 
 if result_path_ucs:
     print(f"\nLowest-cost path from {start_vertex} to {goal_vertex} using UCS: {result_path_ucs}")
@@ -84,11 +84,11 @@ else:
 
 # Part 3: Apply DLS algorithm from vertex 0 to 100 with a depth limit
 depth_limit = 100
+
 start_time_dls = time.time()
-
 result_path_dls = my_complex_graph.dls(start_vertex, goal_vertex, depth_limit)
-
 end_time_dls = time.time()
+
 elapsed_time_ms_dls = (end_time_dls - start_time_dls) * 1000  # Convert seconds to milliseconds
 
 if result_path_dls:
