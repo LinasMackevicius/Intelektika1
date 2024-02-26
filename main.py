@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 import random
 
 
+def show_graph(graph):
+    nx.draw(graph, with_labels=True)
+    plt.show()
 
 def generate_random_graph(num_nodes):
 
@@ -24,10 +27,13 @@ def generate_random_graph(num_nodes):
 
     return G
 
+my_graph1 = generate_random_graph(100);
+my_graph2 = generate_random_graph(200);
+my_graph3 = generate_random_graph(300);
 
-my_graph = generate_random_graph(100);
 
-# Optional: Visualize the graph
-nx.draw(my_graph, with_labels=True)
-plt.show()
+show_graph(my_graph1)
+show_graph(my_graph2)
+show_graph(my_graph3)
+
 
