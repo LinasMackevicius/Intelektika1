@@ -4,34 +4,47 @@ import random
 from collections import deque
 import time
 
-
-
 def show_graph(graph):
     nx.draw(graph, with_labels=True)
     plt.show()
 
 
-def bfs(graph, start_node):
+def bfs(graph, start_node, target_node):
     visited = set()
-    queue = deque([start_node])
+    queue = deque([(start_node, [start_node])])  # Tuple (node, path)
 
     while queue:
-        current_node = queue.popleft()
+        current_node, path = queue.popleft()
         if current_node not in visited:
             print(current_node)
             visited.add(current_node)
-            queue.extend(neighbor for neighbor in graph.neighbors(current_node) if neighbor not in visited)
+            if current_node == target_node:
+                return path  # Return the path taken
 
-def dfs(graph, start_node, visited=None):
+            # Extend the path with the current node
+            path = path + [neighbor for neighbor in graph.neighbors(current_node) if neighbor not in visited]
+
+            queue.extend((neighbor, path) for neighbor in graph.neighbors(current_node) if neighbor not in visited)
+
+    return []  # If target_node is not found, return an empty list
+
+
+def dfs(graph, start_node, target_node, visited=None, steps=0):
     if visited is None:
         visited = set()
 
     print(start_node)
     visited.add(start_node)
+    if start_node == target_node:
+        return steps  # Return the steps taken
 
     for neighbor in graph.neighbors(start_node):
         if neighbor not in visited:
-            dfs(graph, neighbor, visited)
+            result = dfs(graph, neighbor, target_node, visited, steps + 1)
+            if result != -1:
+                return result
+    return -1  # If target_node is not found
+
 
 def generate_random_graph(num_nodes):
 
@@ -49,35 +62,31 @@ def generate_random_graph(num_nodes):
 
     return G
 
-my_graph1 = generate_random_graph(100);
-my_graph2 = generate_random_graph(200);
-my_graph3 = generate_random_graph(1000);
+def main():
 
-#show_graph(my_graph1)
-#show_graph(my_graph2)
-#show_graph(my_graph3)
+    my_graph1 = generate_random_graph(100);
+    my_graph2 = generate_random_graph(200);
+    my_graph3 = generate_random_graph(1000);
 
-
-#-----------BFS---------#
-
-start_time = time.time()
-bfs(my_graph3, 1) # Pasirinkti grafą
-end_time = time.time()
+    show_graph(my_graph1)
+    #show_graph(my_graph2)
+    #show_graph(my_graph3)
 
 
-# Calculate and print the elapsed time
-elapsed_time = end_time - start_time
-print(f"BFS execution time: {elapsed_time} seconds")
+    #-----------BFS---------#
 
-#-----------DFS-----------#
+    visited_nodes = bfs(my_graph1, 0, 13);
+    print(f"Number of nodes traversed: {len(visited_nodes)}")
 
-start_time = time.time()
-dfs(my_graph3, 1) # Pasirinkti grafą
-end_time = time.time()
+    #-----------DFS-----------#
 
-
-elapsed_time = end_time - start_time
-print(f"DFS execution time: {elapsed_time} seconds")
+    #start_time = time.time()
+    #dfs(my_graph3, 1) # Pasirinkti grafą
+    #end_time = time.time()
+    #
+    #
+    #elapsed_time = end_time - start_time
+    #print(f"DFS execution time: {elapsed_time} seconds")
 
 
 
